@@ -1,0 +1,9 @@
+{
+  "base_url": "https://practicesoftwaretesting.com",
+  "api_url": "https://api.practicesoftwaretesting.com",
+  "browser": "Chrome",
+  "user": {
+    "email": "customer@practicesoftwaretesting.com",
+    "password": "Welcome10!"
+  }
+}
