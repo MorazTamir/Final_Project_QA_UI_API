@@ -1,26 +1,27 @@
 from selenium import webdriver
-from selenium.common.exceptions import WebDriverException
-from config.config_provider import ConfigProvider
+from selenium.common import WebDriverException
 
 class BrowserWrapperClass:
+
     def __init__(self):
         print('Test Start!')
         self.driver = None
-        self.config = ConfigProvider()
 
-    def get_driver(self):
-        browser = self.config.get_browser()
-        url = self.config.get_base_url()
+    def get_driver(self, browser: str, url: str):
         try:
             if browser.lower() == 'chrome':
                 self.driver = webdriver.Chrome()
             elif browser.lower() == 'firefox':
                 self.driver = webdriver.Firefox()
+            else:
+                raise ValueError(f"Browser {browser} is not supported")
+
             self.driver.get(url)
             self.driver.maximize_window()
             return self.driver
+
         except WebDriverException as e:
-            print(f"WebDriver Exception: {e}")
+            raise RuntimeError(f"Failed to start browser: {e}")
 
     def close_browser(self):
         print("Test finish")
