@@ -6,27 +6,50 @@ class BaseApi:
     BASE_URL = "https://api.practicesoftwaretesting.com/api"
 
     @staticmethod
-    def get_api_call(endpoint):
-        response = requests.get(f"{BaseApi.BASE_URL}/{endpoint}")
-        return ResponseWrapper(response.ok, response.status_code, response.json())
+    def get_api_call(end_point, body=None):
+        url = BaseApi.BASE_URL + end_point
+        response = requests.get(url)
+        result = ResponseWrapper(response.ok, response.status_code, response.json())
+        return result
 
     @staticmethod
-    def post_api_call(endpoint, payload=None):
-        response = requests.post(
-            f"{BaseApi.BASE_URL}/{endpoint}",
-            json=payload
-        )
-        return ResponseWrapper(response.ok, response.status_code, response.json())
+    def post_api_call(end_point, payload):
+        url = BaseApi.BASE_URL + end_point
+        try:
+            response = requests.post(url, json=payload)
+            return ResponseWrapper(response.ok, response.status_code, response.json())
+        except requests.exceptions.RequestException as e:
+            print(f"Error during POST request: {e}")
+            return ResponseWrapper(False, 500, {"error": str(e)})
 
     @staticmethod
-    def put_api_call(endpoint, payload):
-        response = requests.put(
-            f"{BaseApi.BASE_URL}/{endpoint}",
-            json=payload
-        )
-        return ResponseWrapper(response.ok, response.status_code, response.json())
+    def put_api_call(end_point, payload):
+        full_url = BaseApi.BASE_URL + end_point
+        try:
+            response = requests.put(full_url, json=payload)
+
+            try:
+                data = response.json()
+            except requests.exceptions.JSONDecodeError:
+                data = None
+
+            return ResponseWrapper(response.ok, response.status_code, data)
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error during PUT request to {full_url}: {e}")
+            return ResponseWrapper(False, 500, {"error": str(e)})
 
     @staticmethod
-    def delete_api_call(endpoint):
-        response = requests.delete(f"{BaseApi.BASE_URL}/{endpoint}")
-        return ResponseWrapper(response.ok, response.status_code, response.json())
+    def delete_api_call(end_point):
+        url = BaseApi.BASE_URL + end_point
+        try:
+            response = requests.delete(url)
+            try:
+                data = response.json()
+            except requests.exceptions.JSONDecodeError:
+                data = None
+            return ResponseWrapper(response.ok, response.status_code, data)
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error during DELETE request: {e}")
+            return ResponseWrapper(False, 500, {"error": str(e)})
