@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+
 
 class BasePage:
     # Navbar elements XPaths
@@ -20,6 +22,7 @@ class BasePage:
         self._contact_href = self._driver.find_element(By.XPATH, self.CONTACT_HREF)
         self._login_button = self._driver.find_element(By.XPATH, self.LOGIN_BUTTON)
         self._language_dropdown = self._driver.find_element(By.XPATH, self.LANGUAGE_BTN)
+        self._wait = WebDriverWait(self._driver, 10)
 
     def get_url(self):
         return self._driver.current_url

@@ -3,14 +3,17 @@ from infra.API.response_wrapper import ResponseWrapper
 
 class BaseApi:
 
-    BASE_URL = "https://api.practicesoftwaretesting.com/api"
+    BASE_URL = "https://api.practicesoftwaretesting.com"
+    AUTH_TOKEN = None  # כאן נשמור את הטוקן אחרי הליבה
 
     @staticmethod
-    def get_api_call(end_point, body=None):
+    def get_api_call(end_point):
         url = BaseApi.BASE_URL + end_point
-        response = requests.get(url)
-        result = ResponseWrapper(response.ok, response.status_code, response.json())
-        return result
+        headers = {}
+        if BaseApi.AUTH_TOKEN:
+            headers["Authorization"] = f"Bearer {BaseApi.AUTH_TOKEN}"
+        response = requests.get(url, headers=headers)
+        return ResponseWrapper(response.ok, response.status_code, response.json())
 
     @staticmethod
     def post_api_call(end_point, payload):

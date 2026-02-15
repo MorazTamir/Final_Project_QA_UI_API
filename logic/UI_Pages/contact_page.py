@@ -38,6 +38,7 @@ class ContactPage(BasePage):
         self._subject_input.click()
         select = Select(self._subject_input)
         select.select_by_visible_text(txt)
+        #select.select_by_index(0)
 
     def msg_fill_text(self, msg):
         self._msg_input.send_keys(msg)

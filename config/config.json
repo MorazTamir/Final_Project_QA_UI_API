@@ -1,6 +1,6 @@
 {
   "base_url": "https://practicesoftwaretesting.com",
-  "api_url": "https://api.practicesoftwaretesting.com",
+  "api_url": "https://api.practicesoftwaretesting.com/api/documentation#/",
   "browser": "Chrome",
   "user": {
     "email": "customer@practicesoftwaretesting.com",
